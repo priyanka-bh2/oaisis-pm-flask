@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Your Projects</h2>
+  <a href="{{ url_for('project_new') }}" class="btn btn-primary">+ New Project</a>
+</div>
+
+<form class="row row-cols-lg-auto g-2 align-items-center mb-3" method="get">
+  <div class="col-12">
+    <input type="text" class="form-control" name="q" placeholder="Search projects..." value="{{ q }}">
+  </div>
+  <div class="col-12">
+    <button class="btn btn-outline-secondary" type="submit">Search</button>
+  </div>
+</form>
+
+{% if projects %}
+  <div class="list-group">
+    {% for p in projects %}
+      <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{{ url_for('project_detail', project_id=p.id) }}">
+        <div>
+          <div class="fw-bold">{{ p.name }}</div>
+          <small class="text-muted">{{ p.description[:80] }}</small>
+        </div>
+        <small class="text-muted">{{ p.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">No projects yet. Create your first one!</div>
+{% endif %}
+{% endblock %}
